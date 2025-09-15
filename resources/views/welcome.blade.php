@@ -40,7 +40,7 @@
                                         <h4 class="text-sm font-semibold text-gray-900 mb-3">Popular Tags</h4>
                                         <div class="flex flex-wrap gap-2 text-xs">
                                             @foreach($tags as $tag)
-                                                <x-tag href="/?tag={{$tag}}" class="{{ request()->get('tag') === 'api' ? 'bg-primary text-white' : '' }}">
+                                                <x-tag href="/?tag={{$tag}}" class="{{ request()->get('tag') === $tag ? 'bg-primary text-white' : '' }}">
                                                     {{$tag}}
                                                 </x-tag>
                                             @endforeach

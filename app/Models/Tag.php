@@ -15,5 +15,9 @@ class Tag extends Model
     {
         return $this->belongsToMany(Article::class);
     }
+    public static function getPopularTags()
+    {
+        return static::has('articles')->pluck('name');
+    }
 
 }
