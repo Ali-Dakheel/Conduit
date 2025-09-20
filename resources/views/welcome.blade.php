@@ -5,7 +5,7 @@
                 <h2 class="text-4xl font-semibold tracking-tight text-pretty sm:text-5xl text-primary">Conduit</h2>
                 <p class="mt-2 text-lg/8 text-gray-500">A place to share your knowledge.</p>
             </x-hero>
-            <div class="mt-16  pt-8">
+            <div class="mt-16 pt-8">
                 <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
                     <x-feed-tabs
                         :active-tab="'global'"

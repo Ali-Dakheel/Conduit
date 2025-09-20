@@ -34,11 +34,18 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Article $article)
     {
-        //
-    }
+        $article->load([
+            'author' => function ($query) {
+                $query->withCount('followers');
+            },
+            'tags',
+            'comments.author'
+        ])->loadCount(['comments', 'favorites']);
 
+        return view('article.show', compact('article'));
+    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -68,6 +75,7 @@ class ArticleController extends Controller
         auth()->user()->favoriteArticles()->syncWithoutDetaching([$article->id]);
         return back()->with('message', 'Article favorited!');
     }
+
     public function unfavorite(Article $article)
     {
         auth()->user()->favoriteArticles()->detach($article->id);

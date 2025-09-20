@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'article_id', 'content'];
+    protected $fillable = ['author_id', 'article_id', 'content'];
 
-    public function user()
+    public function author()
     {
         return $this->belongsTo(User::class);
     }

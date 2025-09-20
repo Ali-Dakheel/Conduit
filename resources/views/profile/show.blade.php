@@ -1,10 +1,8 @@
 <x-layout>
     <x-hero>
-        <!-- Profile Hero Section -->
         <div class="bg-gradient-to-r from-primary/10 to-primary/5 -mx-6 px-6 py-12 mb-8 mt-8">
             <div class="max-w-7xl mx-auto">
                 <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
-                    <!-- Profile Image -->
                     <div class="relative">
                         <img src="{{ $author->image }}"
                              alt="{{ $author->name }}"
@@ -16,7 +14,6 @@
                         </div>
                     </div>
 
-                    <!-- Profile Info -->
                     <div class="flex-1">
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                             <div>
@@ -30,12 +27,11 @@
                                 </p>
                             </div>
 
-                            <!-- Follow Button -->
                             <div class="flex gap-3">
                                 @auth
                                     @if(auth()->id() !== $author->id)
                                         @if(auth()->user()->isFollowing($author))
-                                            <form method="POST" action="/profiles/{{ $author->name }}/follow" class="inline">
+                                            <form method="POST" action="/profiles/{{ $author->username }}/follow" class="inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors flex items-center gap-2">
@@ -46,7 +42,7 @@
                                                 </button>
                                             </form>
                                         @else
-                                            <form method="POST" action="/profiles/{{ $author->name }}/follow" class="inline">
+                                            <form method="POST" action="/profiles/{{ $author->username }}/follow" class="inline">
                                                 @csrf
                                                 <button type="submit" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors flex items-center gap-2">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -90,46 +86,44 @@
         </div>
     </x-hero>
 
-    <!-- Profile Content Section -->
     <div class="bg-white py-8">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <!-- Feed Navigation -->
             <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
                 <x-feed-tabs
-                    :active-tab="'articles'"
-                    :global-tab-key="'articles'"
-                    :personal-tab-key="'favorites'"
-                    :global-feed-label="'My Articles'"
-                    :personal-feed-label="'Favorited Articles'" />
+                        :active-tab="'articles'"
+                        :global-tab-key="'articles'"
+                        :personal-tab-key="'favorites'"
+                        :global-feed-label="'My Articles'"
+                        :personal-feed-label="'Favorited Articles'" />
             </div>
 
-            <!-- Articles Grid -->
-            <div class="mx-auto mt-8 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 pt-6 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-                @if(request()->get('tab') === 'favorites')
-                    @forelse($author->favoriteArticles as $article)
-                        <x-blog-card :$article />
-                    @empty
-                        <div class="col-span-3 text-center py-12">
-                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                            </svg>
-                            <h3 class="mt-4 text-lg font-medium text-gray-900">No favorite articles yet</h3>
-                            <p class="mt-2 text-gray-500">{{ $author->name }} hasn't favorited any articles yet.</p>
-                        </div>
-                    @endforelse
-                @else
-                    @forelse($author->articles as $article)
-                        <x-blog-card :$article />
-                    @empty
-                        <div class="col-span-3 text-center py-12">
-                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            <h3 class="mt-4 text-lg font-medium text-gray-900">No articles yet</h3>
-                            <p class="mt-2 text-gray-500">{{ $author->name }} hasn't published any articles yet.</p>
-                        </div>
-                    @endforelse
-                @endif
+            <div data-content="articles" class="mx-auto mt-8 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 pt-6 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+                @forelse($author->articles as $article)
+                    <x-blog-card :$article />
+                @empty
+                    <div class="col-span-3 text-center py-12">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <h3 class="mt-4 text-lg font-medium text-gray-900">No articles yet</h3>
+                        <p class="mt-2 text-gray-500">{{ $author->name }} hasn't published any articles yet.</p>
+                    </div>
+                @endforelse
+            </div>
+
+            <div data-content="favorites" class="hidden mx-auto mt-8 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 pt-6 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+                @forelse($author->favoriteArticles as $article)
+                    <x-blog-card :$article />
+                @empty
+                    <div class="col-span-3 text-center py-12">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                        <h3 class="mt-4 text-lg font-medium text-gray-900">No favorite articles yet</h3>
+                        <p class="mt-2 text-gray-500">{{ $author->name }} hasn't favorited any articles yet.</p>
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>
