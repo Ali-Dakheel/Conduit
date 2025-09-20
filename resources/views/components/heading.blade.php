@@ -7,9 +7,9 @@
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end gap-6">
             <x-nav-link
-                href="/"
-                :active="request()->is('/')"
-                class="flex items-center">
+                    href="/"
+                    :active="request()->is('/')"
+                    class="flex items-center">
                 Home
                 <x-slot name="icon">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -32,14 +32,20 @@
                 <x-nav-link href="/article" :active="request()->is('register')">
                     Create Article
                 </x-nav-link>
-                <x-nav-link href="/logout" :active="request()->is('register')" class="flex items-center">
-                    Log Out
-                    <x-slot name="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4 ml-1">
-                            <path fill-rule="evenodd" d="M7.5 3.75A1.5 1.5 0 0 0 6 5.25v13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V15a.75.75 0 0 1 1.5 0v3.75a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3V5.25a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3V9A.75.75 0 0 1 15 9V5.25a1.5 1.5 0 0 0-1.5-1.5h-6Zm10.72 4.72a.75.75 0 0 1 1.06 0l3 3a.75.75 0 0 1 0 1.06l-3 3a.75.75 0 1 1-1.06-1.06l1.72-1.72H9a.75.75 0 0 1 0-1.5h10.94l-1.72-1.72a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                        </svg>
-                    </x-slot>
-                </x-nav-link>
+                <form method="POST" action="/logout">
+                    @csrf
+                    <x-nav-link :form="true" :active="request()->is('register')" class="flex items-center">
+                        Log Out
+                        <x-slot name="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                 class="h-4 w-4 ml-1">
+                                <path fill-rule="evenodd"
+                                      d="M7.5 3.75A1.5 1.5 0 0 0 6 5.25v13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V15a.75.75 0 0 1 1.5 0v3.75a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3V5.25a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3V9A.75.75 0 0 1 15 9V5.25a1.5 1.5 0 0 0-1.5-1.5h-6Zm10.72 4.72a.75.75 0 0 1 1.06 0l3 3a.75.75 0 0 1 0 1.06l-3 3a.75.75 0 1 1-1.06-1.06l1.72-1.72H9a.75.75 0 0 1 0-1.5h10.94l-1.72-1.72a.75.75 0 0 1 0-1.06Z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </x-slot>
+                    </x-nav-link>
+                </form>
             @endauth
         </div>
     </nav>

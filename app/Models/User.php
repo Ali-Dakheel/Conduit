@@ -63,8 +63,27 @@ class User extends Authenticatable
     {
         return $this->hasMany(Article::class, 'author_id');
     }
+
     public function comments()
     {
         return $this->hasMany(Comment::class, 'author_id');
+    }
+
+    public function favoriteArticles()
+    {
+        return $this->belongsToMany(Article::class, 'article_favorite');
+    }
+
+    public static function getProfileByUsername(string $username)
+    {
+        return static::where('name', $username)->with(['articles', 'favoriteArticles'])->withCount(['favoriteArticles', 'followers'])->first();
+    }
+    public function hasFavorited(Article $article): bool
+    {
+        return $this->favoriteArticles()->where('article_id', $article->id)->exists();
+    }
+    public function isFollowing(User $author): bool
+    {
+        return $this->following()->where('follower_id',$author->id)->exists();
     }
 }
