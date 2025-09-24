@@ -25,7 +25,9 @@
 
                     <div data-content="following"
                          class="hidden mx-auto mt-8 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 pt-6 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-                        <!-- Following articles would go here -->
+                            @foreach($myArticles as $article)
+                                <x-blog-card :$article/>
+                            @endforeach
                     </div>
                 </div>
             </div>

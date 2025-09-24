@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
@@ -20,7 +22,8 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        $tags = Tag::all();
+        return view('article.create', compact('tags'));
     }
 
     /**
@@ -28,7 +31,25 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required',
+            'body' => 'required',
+            'tags' => 'array',
+            'description' => 'required',
+        ]);
+
+        $slug = Str::slug($validated['title']) . '-' . uniqid();
+
+        $article = auth()->user()->articles()->create([
+            'title' => $validated['title'],
+            'slug' => $slug,
+            'body' => $validated['body'],
+            'description' => $validated['description'],
+        ]);
+        $article->tags()->attach($validated['tags']);
+
+        return redirect()->route('article.show', $article->slug)
+            ->with('message', 'Article created successfully!');
     }
 
     /**
@@ -46,6 +67,7 @@ class ArticleController extends Controller
 
         return view('article.show', compact('article'));
     }
+
     /**
      * Show the form for editing the specified resource.
      */

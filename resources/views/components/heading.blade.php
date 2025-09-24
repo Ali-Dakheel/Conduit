@@ -29,7 +29,7 @@
                 </x-nav-link>
             @endguest
             @auth()
-                <x-nav-link href="/article" :active="request()->is('register')">
+                <x-nav-link href="/articles" :active="request()->is('register')">
                     Create Article
                 </x-nav-link>
                 <form method="POST" action="/logout">

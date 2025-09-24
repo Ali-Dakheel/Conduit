@@ -23,14 +23,16 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', Logout::class)->middleware('auth')->name('logout');
+    Route::get('/articles',[ArticleController::class,'create']);
+    Route::post('/articles',[ArticleController::class,'store']);
     Route::post('/articles/{article:slug}/favorite',[ArticleController::class,'favorite']);
     Route::delete('/articles/{article:slug}/favorite',[ArticleController::class,'unfavorite']);
     Route::post('/profiles/{user:username}/follow',[ProfileController::class,'store']);
     Route::delete('/profiles/{user:username}/follow',[ProfileController::class,'destroy']);
-    Route::get('articles/{article:slug}',[ArticleController::class,'show']);
+    Route::get('articles/{article:slug}',[ArticleController::class,'show'])->name('article.show');
     Route::post('/articles/{article:slug}/comments',[CommentController::class,'store']);
     Route::get('/articles/{article:slug}/comments',[CommentController::class,'show']);
-    Route::delete('/articles/{article:slug}/comments/{comment}',[CommentController::class,'destroy'])->scopeBindings();;
+    Route::delete('/articles/{article:slug}/comments/{comment}',[CommentController::class,'destroy'])->scopeBindings();
 });
 
 

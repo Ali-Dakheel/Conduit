@@ -12,6 +12,7 @@ class HomeController extends Controller
     {
         $articles = Article::getArticlesFiltered($request->get('tag'));
         $tags = Tag::getPopularTags();
-        return view('welcome', compact('articles', 'tags'));
+        $myArticles = Article::all()->where('author_id',auth()->id());
+        return view('welcome', compact('articles', 'tags', 'myArticles'));
     }
 }
